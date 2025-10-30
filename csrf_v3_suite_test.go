@@ -6,29 +6,9 @@ import (
 	"net/http/httptest"
 	"net/url"
 	"strings"
-	"testing"
 
 	"github.com/gofiber/fiber/v3"
-	. "github.com/onsi/ginkgo/v2"
-	. "github.com/onsi/gomega"
 )
-
-func TestCsrfV3(t *testing.T) {
-	RegisterFailHandler(Fail)
-	RunSpecs(t, "CsrfV3 Suite")
-}
-
-var _ = BeforeSuite(func() {
-	slog.SetLogLoggerLevel(slog.LevelDebug)
-	options := slog.HandlerOptions{
-		AddSource: true,
-		Level:     slog.LevelDebug,
-	}
-
-	handler := slog.NewTextHandler(GinkgoWriter, &options)
-	logger := slog.New(handler)
-	slog.SetDefault(logger)
-})
 
 var csrfCookieName string = "csrf_"
 
@@ -68,7 +48,6 @@ type TestClient struct {
 
 func (this TestClient) New(app *fiber.App) *TestClient {
 	this.cookieJar = CookieJar{}.New()
-	Expect(app).NotTo(BeNil())
 	this.app = app
 	return &this
 }
